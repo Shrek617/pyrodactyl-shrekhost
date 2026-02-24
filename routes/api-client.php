@@ -77,11 +77,11 @@ Route::group([
     Route::group(['prefix' => '/subdomain'], function () {
         Route::get('/', [Elytra\SubdomainController::class, 'index']);
         Route::post('/', [Elytra\SubdomainController::class, 'store'])
-            ->middleware('throttle:5,1'); // Max 5 creates/replaces per minute
+            ->middleware('throttle:10,1');
         Route::delete('/', [Elytra\SubdomainController::class, 'destroy'])
-            ->middleware('throttle:5,1'); // Max 5 deletes per minute
+            ->middleware('throttle:10,1');
         Route::post('/check-availability', [Elytra\SubdomainController::class, 'checkAvailability'])
-            ->middleware('throttle:20,1'); // Max 20 availability checks per minute
+            ->middleware('throttle:25,1');
     });
 });
 
