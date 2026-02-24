@@ -31,4 +31,19 @@ function ip(value: string): string {
     return /([a-f0-9:]+:+)+[a-f0-9]+/.test(value) ? `[${value}]` : value;
 }
 
-export { ip, mbToBytes, bytesToString };
+/**
+ * Formats an IP alias and port. If the alias starts with an '@' symbol,
+ * it bypasses standard Pterodactyl formatting, allowing for completely custom
+ * strings (like SRV domains or custom external ports) to be displayed without
+ * the default allocation port being forcefully appended.
+ */
+function formatIpAlias(alias: string | null, ipAddress: string, port: number): string {
+    if (alias && alias.startsWith('@')) {
+        return alias.substring(1);
+    }
+
+    const displayAddress = alias || ip(ipAddress);
+    return `${displayAddress}:${port}`;
+}
+
+export { ip, mbToBytes, bytesToString, formatIpAlias };

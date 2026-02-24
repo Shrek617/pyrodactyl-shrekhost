@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import StatBlock from '@/components/server/console/StatBlock';
 import { SocketEvent, SocketRequest } from '@/components/server/events';
 
-import { bytesToString, ip, mbToBytes } from '@/lib/formatters';
+import { bytesToString, mbToBytes, formatIpAlias } from '@/lib/formatters';
 
 import { SubdomainInfo, getSubdomainInfo } from '@/api/server/network/subdomain';
 
@@ -54,7 +54,7 @@ const ServerDetailsBlock = ({ className }: { className?: string }) => {
     const allocation = ServerContext.useStoreState((state) => {
         const match = state.server.data!.allocations.find((allocation) => allocation.isDefault);
 
-        return !match ? 'n/a' : `${match.alias || ip(match.ip)}:${match.port}`;
+        return !match ? 'n/a' : formatIpAlias(match.alias, match.ip, match.port);
     });
 
     // Get display address (subdomain if available and active, otherwise IP)

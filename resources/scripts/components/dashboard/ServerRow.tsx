@@ -2,7 +2,7 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { bytesToString, ip } from '@/lib/formatters';
+import { bytesToString, ip, formatIpAlias } from '@/lib/formatters';
 
 import { Server } from '@/api/server/getServer';
 import getServerResourceUsage, { ServerPowerState, ServerStats } from '@/api/server/getServerResourceUsage';
@@ -125,7 +125,7 @@ const ServerRow = ({ server, className }: { server: Server; className?: string }
                             .filter((alloc) => alloc.isDefault)
                             .map((allocation) => (
                                 <Fragment key={allocation.ip + allocation.port.toString()}>
-                                    {allocation.alias || ip(allocation.ip)}:{allocation.port}
+                                    {formatIpAlias(allocation.alias, allocation.ip, allocation.port)}
                                 </Fragment>
                             ))}
                     </p>

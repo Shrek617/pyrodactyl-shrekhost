@@ -13,7 +13,7 @@ import Spinner from '@/components/elements/Spinner';
 import { Dialog } from '@/components/elements/dialog';
 import { PageListItem } from '@/components/elements/pages/PageList';
 
-import { ip } from '@/lib/formatters';
+import { ip, formatIpAlias } from '@/lib/formatters';
 
 import { Allocation } from '@/api/server/getServer';
 import deleteServerAllocation from '@/api/server/network/deleteServerAllocation';
@@ -74,10 +74,7 @@ const AllocationRow = ({ allocation }: Props) => {
         setNotesValue(allocation.notes || '');
     }, [allocation.notes]);
 
-    // Format the full allocation string for copying
-    const allocationString = allocation.alias
-        ? `${allocation.alias}:${allocation.port}`
-        : `${ip(allocation.ip)}:${allocation.port}`;
+    const allocationString = formatIpAlias(allocation.alias, allocation.ip, allocation.port);
 
     const setPrimaryAllocation = () => {
         clearFlashes();
@@ -115,7 +112,7 @@ const AllocationRow = ({ allocation }: Props) => {
                                 <CopyOnClick text={allocationString}>
                                     <div className='flex items-center gap-2 cursor-pointer hover:text-zinc-50 transition-colors group'>
                                         <h3 className='text-base font-medium text-zinc-100 font-mono truncate'>
-                                            {allocation.alias ? allocation.alias : ip(allocation.ip)}:{allocation.port}
+                                            {formatIpAlias(allocation.alias, allocation.ip, allocation.port)}
                                         </h3>
                                         <Copy
                                             fill='currentColor'
