@@ -42,6 +42,7 @@ jobs:
           context: .
           push: true
           tags: |
+            ghcr.io/${{ env.REPO_LC }}:latest
             ghcr.io/${{ env.REPO_LC }}:canary
             ghcr.io/${{ env.REPO_LC }}:canary-${{ github.sha }}
           platforms: linux/amd64,linux/arm64
