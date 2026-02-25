@@ -34,6 +34,15 @@ Route::middleware(['throttle:authentication'])->group(function () {
     ->name('auth.post.forgot-password');
 });
 
+// OAuth routes
+Route::get('/login/oauth/{provider}', [Auth\OAuthController::class, 'redirect'])
+  ->middleware('guest')
+  ->name('auth.oauth.redirect');
+
+Route::get('/login/oauth/{provider}/callback', [Auth\OAuthController::class, 'callback'])
+  ->middleware('guest')
+  ->name('auth.oauth.callback');
+
 // Password reset routes. This endpoint is hit after going through
 // the forgot password routes to acquire a token (or after an account
 // is created).

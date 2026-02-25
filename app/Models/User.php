@@ -273,4 +273,12 @@ class User extends Model implements
             })
             ->groupBy('servers.id', 'servers.name', 'servers.owner_id');
     }
+
+    /**
+     * Returns all the OAuth providers that the user has linked.
+     */
+    public function oauthProviders(): HasMany
+    {
+        return $this->hasMany(UserOAuthProvider::class);
+    }
 }

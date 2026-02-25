@@ -20,6 +20,9 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         ServerInstalledEvent::class => [ServerInstalledNotification::class],
+        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+            \SocialiteProviders\Telegram\TelegramExtendSocialite::class . '@handle',
+        ],
     ];
 
     protected $subscribe = [
