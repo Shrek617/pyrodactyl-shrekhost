@@ -32,12 +32,18 @@ function ip(value: string): string {
 }
 
 /**
- * Formats an IP alias and port. If the alias starts with an '@' symbol,
- * it bypasses standard Pterodactyl formatting, allowing for completely custom
- * strings (like SRV domains or custom external ports) to be displayed without
- * the default allocation port being forcefully appended.
+ * Formats an IP alias and port. 
+ * If the alias is '@disabled', it returns a placeholder text.
+ * If the alias starts with an '@' symbol, it bypasses standard Pterodactyl 
+ * formatting, allowing for completely custom strings (like SRV domains or 
+ * custom external ports) to be displayed without the default allocation 
+ * port being forcefully appended.
  */
 function formatIpAlias(alias: string | null, ipAddress: string, port: number): string {
+    if (alias === '@disabled') {
+        return 'Айпи недоступен';
+    }
+
     if (alias && alias.startsWith('@')) {
         return alias.substring(1);
     }
