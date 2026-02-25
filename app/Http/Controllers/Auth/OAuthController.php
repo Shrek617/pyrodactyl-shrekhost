@@ -10,18 +10,21 @@ use Pterodactyl\Facades\Activity;
 use Laravel\Socialite\Facades\Socialite;
 use Pterodactyl\Models\UserOAuthProvider;
 use Pterodactyl\Exceptions\DisplayException;
-use Symfony\Component\HttpFoundation\Response;
-
 class OAuthController extends AbstractLoginController
 {
     /**
      * Redirect the user to the OAuth provider's authentication page.
      */
-    public function redirect(string $provider): Response
+    public function redirect(string $provider)
     {
-        // For Telegram, Socialite might return redirect response or might behave differently
-        // but typically all Socialite providers behave via redirect()
-        return Socialite::driver($provider)->redirect();
+        $response = Socialite::driver($provider)->redirect();
+
+        // Some providers (like Telegram) return a URL string instead of a Response object
+        if (is_string($response)) {
+            return redirect($response);
+        }
+
+        return $response;
     }
 
     /**

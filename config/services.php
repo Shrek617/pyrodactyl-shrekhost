@@ -37,6 +37,6 @@ return [
     'telegram' => [
         'client_id' => null,  // Telegram bot name
         'client_secret' => env('TELEGRAM_BOT_TOKEN'),  // Bot token
-        'redirect' => env('APP_URL') . '/auth/login/telegram/callback',
+        'redirect' => env('APP_URL') . '/auth/login/oauth/telegram/callback',
     ],
 ];
