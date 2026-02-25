@@ -37,6 +37,7 @@ class OAuthController extends AbstractLoginController
         try {
             $socialiteUser = Socialite::driver($provider)->user();
         } catch (\Exception $e) {
+            \Log::error('OAuth callback error', ['provider' => $provider, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             return redirect('/auth/login')->withErrors(['error' => 'Authentication failed or was canceled.']);
         }
 
