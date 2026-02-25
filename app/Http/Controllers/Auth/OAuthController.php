@@ -21,7 +21,7 @@ class OAuthController extends AbstractLoginController
 
         // Some providers (like Telegram) return a URL string instead of a Response object
         if (is_string($response)) {
-            return redirect($response);
+            return redirect(trim($response));
         }
 
         return $response;
