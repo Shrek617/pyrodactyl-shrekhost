@@ -34,6 +34,10 @@ class AssetComposer
         'siteKey' => $this->getSiteKeyForCurrentProvider(),
         'scriptIncludes' => $this->captcha->getScriptIncludes(),
       ],
+      'telegram' => [
+        'enabled' => !empty(config('services.telegram.bot')),
+        'botName' => config('services.telegram.bot', ''),
+      ],
     ]);
   }
 
