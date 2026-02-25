@@ -19,9 +19,9 @@ class OAuthController extends AbstractLoginController
     {
         $response = Socialite::driver($provider)->redirect();
 
-        // Some providers (like Telegram) return a URL string instead of a Response object
+        // Telegram provider returns a full HTML page with a login widget, not a redirect URL
         if (is_string($response)) {
-            return redirect(trim($response));
+            return response($response);
         }
 
         return $response;

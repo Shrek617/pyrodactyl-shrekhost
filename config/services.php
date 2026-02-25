@@ -35,8 +35,9 @@ return [
     ],
 
     'telegram' => [
-        'client_id' => null,  // Telegram bot name
-        'client_secret' => env('TELEGRAM_BOT_TOKEN'),  // Bot token
+        'client_id' => null,
+        'client_secret' => env('TELEGRAM_BOT_TOKEN'),
         'redirect' => env('APP_URL') . '/auth/login/oauth/telegram/callback',
+        'bot' => env('TELEGRAM_BOT_NAME'),  // Bot username without @
     ],
 ];
