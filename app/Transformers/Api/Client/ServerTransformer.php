@@ -45,12 +45,12 @@ class ServerTransformer extends BaseClientTransformer
             'node' => $server->node->name,
             'is_node_under_maintenance' => $server->node->isUnderMaintenance(),
             'sftp_details' => [
-                'ip' => $server->node->fqdn,
-                'port' => $server->node->daemonSFTP,
+                'ip' => $server->node->sftp_alias_address ?? $server->node->fqdn,
+                'port' => $server->node->sftp_alias_port ?? $server->node->daemonSFTP,
             ],
             'sftp_alias' => [
-                'ip' => $server->node->SFTPAliasAddress,
-                'port' => $server->node->SFTPAliasPort
+                'ip' => $server->node->sftp_alias_address ?? $server->node->fqdn,
+                'port' => $server->node->sftp_alias_port ?? $server->node->daemonSFTP,
             ],
             'description' => $server->description,
             'limits' => [

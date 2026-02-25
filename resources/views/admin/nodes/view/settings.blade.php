@@ -268,6 +268,24 @@
               your physical server's SSH process.</strong></small></p>
           </div>
         </div>
+        <div class="row">
+          <div class="form-group col-md-6">
+          <label for="sftp_alias_address" class="control-label">SFTP Alias Address (Optional)</label>
+          <div>
+            <input type="text" name="sftp_alias_address" class="form-control"
+            value="{{ old('sftp_alias_address', $node->sftp_alias_address) }}" />
+          </div>
+          <p class="text-muted"><small>Overrides the default FQDN for SFTP connections shown to users.</small></p>
+          </div>
+          <div class="form-group col-md-6">
+          <label for="sftp_alias_port" class="control-label">SFTP Alias Port (Optional)</label>
+          <div>
+            <input type="text" name="sftp_alias_port" class="form-control"
+            value="{{ old('sftp_alias_port', $node->sftp_alias_port) }}" />
+          </div>
+          <p class="text-muted"><small>Overrides the default Daemon SFTP port shown to users.</small></p>
+          </div>
+        </div>
         </div>
       </div>
       </div>
