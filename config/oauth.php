@@ -31,12 +31,12 @@ return [
             'type' => 'telegram',
         ],
 
-        // 'discord' => [
-        //     'label' => 'Discord',
-        //     'color' => '#5865F2',
-        //     'hover_color' => '#4752c4',
-        //     'icon' => 'discord',
-        //     'type' => 'redirect',
-        // ],
+        'discord' => [
+            'label' => 'Discord',
+            'color' => '#5865F2',
+            'hover_color' => '#4752c4',
+            'icon' => 'discord',
+            'type' => 'redirect',
+        ],
     ],
 ];

@@ -22,6 +22,7 @@ class EventServiceProvider extends ServiceProvider
         ServerInstalledEvent::class => [ServerInstalledNotification::class],
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
             \SocialiteProviders\Telegram\TelegramExtendSocialite::class . '@handle',
+            \SocialiteProviders\Discord\DiscordExtendSocialite::class . '@handle',
         ],
     ];
 

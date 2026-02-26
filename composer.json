@@ -46,6 +46,7 @@
         "s1lentium/iptools": "~1.2.0",
         "spatie/laravel-fractal": "^6.2",
         "spatie/laravel-query-builder": "^6.3",
+        "socialiteproviders/discord": "^4.2",
         "socialiteproviders/telegram": "^4.1",
         "staudenmeir/belongs-to-through": "^2.17",
         "symfony/http-client": "~7.1.5",

@@ -40,4 +40,10 @@ return [
         'redirect' => env('APP_URL') . '/auth/login/oauth/telegram/callback',
         'bot' => env('TELEGRAM_BOT_NAME'),  // Bot username without @
     ],
+
+    'discord' => [
+        'client_id' => env('DISCORD_CLIENT_ID'),
+        'client_secret' => env('DISCORD_CLIENT_SECRET'),
+        'redirect' => env('APP_URL') . '/auth/login/oauth/discord/callback',
+    ],
 ];
