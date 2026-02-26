@@ -34,6 +34,8 @@ class OAuthController extends AbstractLoginController
      */
     public function callback(string $provider, Request $request)
     {
+        \Log::info('OAuth callback reached', ['provider' => $provider, 'params' => $request->all()]);
+
         try {
             $socialiteUser = Socialite::driver($provider)->user();
         } catch (\Exception $e) {
