@@ -38,8 +38,9 @@ class OAuthController extends AbstractLoginController
 
         try {
             $socialiteUser = Socialite::driver($provider)->user();
-        } catch (\Exception $e) {
-            \Log::error('OAuth callback error', ['provider' => $provider, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            \Log::info('OAuth user resolved', ['id' => $socialiteUser->getId(), 'nickname' => $socialiteUser->getNickname(), 'email' => $socialiteUser->getEmail()]);
+        } catch (\Throwable $e) {
+            \Log::error('OAuth callback error', ['provider' => $provider, 'error' => $e->getMessage(), 'class' => get_class($e)]);
             return redirect('/auth/login')->withErrors(['error' => 'Authentication failed or was canceled.']);
         }
 
@@ -48,14 +49,10 @@ class OAuthController extends AbstractLoginController
             ->first();
 
         if ($oauthProvider) {
-            // Find underlying user
+            \Log::info('OAuth existing user found', ['user_id' => $oauthProvider->user_id]);
             $user = $oauthProvider->user;
 
-            // Proceed with login logic inherited from AbstractLoginController
             if ($user->use_totp) {
-                // Return a view or JSON that handles TOTP if necessary, 
-                // but since it's a redirect route, we might need a specific handling.
-                // For simplicity, let's redirect to TOTP checkpoint with token.
                 Activity::event('auth:checkpoint')->withRequestMetadata()->subject($user)->log();
 
                 $request->session()->put('auth_confirmation_token', [
@@ -64,28 +61,25 @@ class OAuthController extends AbstractLoginController
                     'expires_at' => now()->addMinutes(5),
                 ]);
 
-                // We need to redirect to the SPA checkpoint route which will pick up the session or token
                 return redirect('/auth/login/checkpoint')->with('token', $token);
             }
 
-            // Normal login without TOTP
             return $this->sendLoginResponseAndRedirect($user, $request);
         }
 
-        // Option A: Auto-create user
-        // We need to map Socialite user to Pterodactyl user fields
+        \Log::info('OAuth creating new user');
+
         $email = $socialiteUser->getEmail() ?: $socialiteUser->getId() . '@' . $provider . '.local';
         $username = $socialiteUser->getNickname() ?: $provider . '_' . $socialiteUser->getId();
         $nameFirst = $socialiteUser->getName() ?: 'User';
         $nameLast = null;
 
-        // Ensure username is unique
         if (User::where('username', $username)->exists()) {
             $username = $username . '_' . Str::random(4);
         }
 
-        // Ensure email is unique
         if (User::where('email', $email)->exists()) {
+            \Log::warning('OAuth email already exists', ['email' => $email]);
             return redirect('/auth/login')->withErrors(['error' => 'An account with this email already exists.']);
         }
 
@@ -96,7 +90,7 @@ class OAuthController extends AbstractLoginController
                 'username' => $username,
                 'name_first' => $nameFirst,
                 'name_last' => $nameLast,
-                'password' => bcrypt(Str::random(32)), // Random password, they login via OAuth
+                'password' => bcrypt(Str::random(32)),
                 'uuid' => Str::uuid()->toString(),
             ]);
 
@@ -107,10 +101,12 @@ class OAuthController extends AbstractLoginController
             ]);
 
             \DB::commit();
+            \Log::info('OAuth user created', ['user_id' => $user->id, 'email' => $email]);
 
             return $this->sendLoginResponseAndRedirect($user, $request);
         } catch (\Exception $e) {
             \DB::rollBack();
+            \Log::error('OAuth user creation failed', ['error' => $e->getMessage()]);
             return redirect('/auth/login')->withErrors(['error' => 'Could not create account: ' . $e->getMessage()]);
         }
     }
