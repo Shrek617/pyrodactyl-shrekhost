@@ -34,12 +34,43 @@ class AssetComposer
         'siteKey' => $this->getSiteKeyForCurrentProvider(),
         'scriptIncludes' => $this->captcha->getScriptIncludes(),
       ],
-      'telegram' => [
-        'enabled' => !empty(config('services.telegram.bot')),
-        'botName' => config('services.telegram.bot', ''),
-        'botId' => explode(':', config('services.telegram.client_secret', ''), 2)[0] ?: '',
-      ],
+      'oauth' => $this->getEnabledOAuthProviders(),
     ]);
+  }
+
+  /**
+   * Build list of enabled OAuth providers with their UI config.
+   */
+  private function getEnabledOAuthProviders(): array
+  {
+    $providers = [];
+
+    foreach (config('oauth.providers', []) as $key => $provider) {
+      $serviceConfig = config("services.{$key}", []);
+
+      // Provider is enabled only if client_secret is configured
+      if (empty($serviceConfig['client_secret'])) {
+        continue;
+      }
+
+      $entry = [
+        'key' => $key,
+        'label' => $provider['label'] ?? ucfirst($key),
+        'color' => $provider['color'] ?? '#333',
+        'hoverColor' => $provider['hover_color'] ?? '#222',
+        'icon' => $provider['icon'] ?? $key,
+        'type' => $provider['type'] ?? 'redirect',
+      ];
+
+      // For Telegram type, extract numeric bot ID from token
+      if ($entry['type'] === 'telegram') {
+        $entry['botId'] = explode(':', $serviceConfig['client_secret'], 2)[0] ?: '';
+      }
+
+      $providers[] = $entry;
+    }
+
+    return $providers;
   }
 
   /**

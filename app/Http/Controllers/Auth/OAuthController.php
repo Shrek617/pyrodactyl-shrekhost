@@ -68,7 +68,7 @@ class OAuthController extends AbstractLoginController
         }
 
         \Log::warning('OAuth provider not linked', ['provider' => $provider, 'provider_id' => $socialiteUser->getId()]);
-        return redirect('/auth/login')->withErrors(['error' => 'No account is linked to this Telegram. Please link Telegram in your account settings first.']);
+        return redirect('/auth/login')->withErrors(['error' => 'No account is linked to this ' . ucfirst($provider) . ' account. Please link it in your account settings first.']);
     }
 
     /**
