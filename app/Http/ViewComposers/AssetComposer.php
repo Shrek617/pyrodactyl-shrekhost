@@ -37,6 +37,7 @@ class AssetComposer
       'telegram' => [
         'enabled' => !empty(config('services.telegram.bot')),
         'botName' => config('services.telegram.bot', ''),
+        'botId' => explode(':', config('services.telegram.client_secret', ''), 2)[0] ?: '',
       ],
     ]);
   }

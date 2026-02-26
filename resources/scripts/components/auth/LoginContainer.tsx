@@ -41,10 +41,10 @@ function TelegramLoginWidget() {
 
     const handleClick = () => {
         const config = (window as any).SiteConfiguration?.telegram;
-        if (!config?.botName || !scriptLoaded) return;
+        if (!config?.botId || !scriptLoaded) return;
 
         (window as any).Telegram?.Login?.auth(
-            { bot_id: config.botName, request_access: 'write' },
+            { bot_id: config.botId, request_access: 'write' },
             (data: any) => {
                 if (!data) return; // auth was cancelled
 
