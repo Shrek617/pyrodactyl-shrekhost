@@ -131,6 +131,15 @@ function LoginContainer() {
 
     useEffect(() => {
         clearFlashes();
+
+        // Display OAuth error from query parameters
+        const params = new URLSearchParams(window.location.search);
+        const error = params.get('error');
+        if (error) {
+            clearAndAddHttpError({ error: new Error(error) });
+            // Clean the URL without reloading
+            window.history.replaceState({}, '', window.location.pathname);
+        }
     }, []);
 
     const onSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
