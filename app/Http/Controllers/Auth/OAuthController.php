@@ -67,48 +67,8 @@ class OAuthController extends AbstractLoginController
             return $this->sendLoginResponseAndRedirect($user, $request);
         }
 
-        \Log::info('OAuth creating new user');
-
-        $email = $socialiteUser->getEmail() ?: $socialiteUser->getId() . '@' . $provider . '.local';
-        $username = $socialiteUser->getNickname() ?: $provider . '_' . $socialiteUser->getId();
-        $nameFirst = $socialiteUser->getName() ?: 'User';
-        $nameLast = null;
-
-        if (User::where('username', $username)->exists()) {
-            $username = $username . '_' . Str::random(4);
-        }
-
-        if (User::where('email', $email)->exists()) {
-            \Log::warning('OAuth email already exists', ['email' => $email]);
-            return redirect('/auth/login')->withErrors(['error' => 'An account with this email already exists.']);
-        }
-
-        \DB::beginTransaction();
-        try {
-            $user = User::create([
-                'email' => $email,
-                'username' => $username,
-                'name_first' => $nameFirst,
-                'name_last' => $nameLast,
-                'password' => bcrypt(Str::random(32)),
-                'uuid' => Str::uuid()->toString(),
-            ]);
-
-            UserOAuthProvider::create([
-                'user_id' => $user->id,
-                'provider' => $provider,
-                'provider_id' => $socialiteUser->getId(),
-            ]);
-
-            \DB::commit();
-            \Log::info('OAuth user created', ['user_id' => $user->id, 'email' => $email]);
-
-            return $this->sendLoginResponseAndRedirect($user, $request);
-        } catch (\Exception $e) {
-            \DB::rollBack();
-            \Log::error('OAuth user creation failed', ['error' => $e->getMessage()]);
-            return redirect('/auth/login')->withErrors(['error' => 'Could not create account: ' . $e->getMessage()]);
-        }
+        \Log::warning('OAuth provider not linked', ['provider' => $provider, 'provider_id' => $socialiteUser->getId()]);
+        return redirect('/auth/login')->withErrors(['error' => 'No account is linked to this Telegram. Please link Telegram in your account settings first.']);
     }
 
     /**
