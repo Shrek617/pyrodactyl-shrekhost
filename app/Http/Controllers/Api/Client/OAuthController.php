@@ -37,7 +37,6 @@ class OAuthController extends ClientApiController
             $request->query->add($request->all());
             $socialiteUser = Socialite::driver($provider)->user();
         } catch (\Throwable $e) {
-            \Log::error('OAuth link error', ['provider' => $provider, 'error' => $e->getMessage()]);
             return new JsonResponse(['error' => 'Invalid authentication data.'], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 

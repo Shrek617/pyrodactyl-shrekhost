@@ -34,13 +34,9 @@ class OAuthController extends AbstractLoginController
      */
     public function callback(string $provider, Request $request)
     {
-        \Log::info('OAuth callback reached', ['provider' => $provider, 'params' => $request->all()]);
-
         try {
             $socialiteUser = Socialite::driver($provider)->user();
-            \Log::info('OAuth user resolved', ['id' => $socialiteUser->getId(), 'nickname' => $socialiteUser->getNickname(), 'email' => $socialiteUser->getEmail()]);
         } catch (\Throwable $e) {
-            \Log::error('OAuth callback error', ['provider' => $provider, 'error' => $e->getMessage(), 'class' => get_class($e)]);
             return redirect('/auth/login?error=' . urlencode('Authentication failed or was canceled.'));
         }
 
@@ -49,14 +45,12 @@ class OAuthController extends AbstractLoginController
             ->first();
 
         if ($oauthProvider) {
-            \Log::info('OAuth existing user found', ['user_id' => $oauthProvider->user_id]);
             $user = $oauthProvider->user;
 
             // Skip 2FA for OAuth — provider already verified identity
             return $this->sendLoginResponseAndRedirect($user, $request);
         }
 
-        \Log::warning('OAuth provider not linked', ['provider' => $provider, 'provider_id' => $socialiteUser->getId()]);
         return redirect('/auth/login?error=' . urlencode('No account is linked to this ' . ucfirst($provider) . ' account. Please link it in your account settings first.'));
     }
 
@@ -90,7 +84,6 @@ class OAuthController extends AbstractLoginController
                 ->redirectUrl($callbackUrl)
                 ->user();
         } catch (\Throwable $e) {
-            \Log::error('OAuth link callback error', ['provider' => $provider, 'error' => $e->getMessage()]);
             return redirect('/account?error=' . urlencode('Authentication failed or was canceled.'));
         }
 
