@@ -43,6 +43,17 @@ Route::get('/login/oauth/{provider}/callback', [Auth\OAuthController::class, 'ca
   ->middleware('guest')
   ->name('auth.oauth.callback');
 
+// OAuth linking routes (for logged-in users linking accounts)
+Route::get('/link/oauth/{provider}', [Auth\OAuthController::class, 'linkRedirect'])
+  ->withoutMiddleware('guest')
+  ->middleware('auth')
+  ->name('auth.oauth.link');
+
+Route::get('/link/oauth/{provider}/callback', [Auth\OAuthController::class, 'linkCallback'])
+  ->withoutMiddleware('guest')
+  ->middleware('auth')
+  ->name('auth.oauth.link.callback');
+
 // Password reset routes. This endpoint is hit after going through
 // the forgot password routes to acquire a token (or after an account
 // is created).

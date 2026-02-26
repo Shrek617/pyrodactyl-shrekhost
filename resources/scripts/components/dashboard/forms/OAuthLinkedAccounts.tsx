@@ -35,6 +35,19 @@ const OAuthLinkedAccounts = () => {
     const providers: OAuthProviderConfig[] = (window as any).SiteConfiguration?.oauth || [];
 
     useEffect(() => {
+        // Read error/success from URL query params (set by OAuth linking redirect)
+        const params = new URLSearchParams(window.location.search);
+        const urlError = params.get('error');
+        const urlSuccess = params.get('success');
+        if (urlError) {
+            setError(urlError);
+            window.history.replaceState({}, '', window.location.pathname);
+        }
+        if (urlSuccess) {
+            setSuccess(urlSuccess);
+            window.history.replaceState({}, '', window.location.pathname);
+        }
+
         getLinkedOAuthProviders()
             .then(setLinked)
             .catch(() => setError('Failed to load linked accounts.'))
@@ -78,7 +91,7 @@ const OAuthLinkedAccounts = () => {
             );
         } else {
             // Standard OAuth redirect flow — redirect to auth page, callback will link
-            window.location.href = `/auth/oauth/link/${provider.key}`;
+            window.location.href = `/auth/link/oauth/${provider.key}`;
         }
     };
 
@@ -151,8 +164,8 @@ const OAuthLinkedAccounts = () => {
                                     onClick={() => (isLinked ? handleUnlink(provider) : handleLink(provider))}
                                     disabled={isLoading}
                                     className={`px-4 py-1.5 text-xs font-bold rounded-full transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-wait ${isLinked
-                                            ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30 border border-red-500/30'
-                                            : 'text-white hover:shadow-lg'
+                                        ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30 border border-red-500/30'
+                                        : 'text-white hover:shadow-lg'
                                         }`}
                                     style={
                                         !isLinked
