@@ -52,6 +52,12 @@ Route::prefix('/account')->middleware(AccountSubject::class)->group(function () 
         Route::post('/', [Client\SSHKeyController::class, 'store']);
         Route::post('/remove', [Client\SSHKeyController::class, 'delete']);
     });
+
+    Route::prefix('/oauth')->group(function () {
+        Route::get('/', [Client\OAuthController::class, 'index']);
+        Route::post('/{provider}', [Client\OAuthController::class, 'link']);
+        Route::delete('/{provider}', [Client\OAuthController::class, 'unlink']);
+    });
 });
 
 /*
