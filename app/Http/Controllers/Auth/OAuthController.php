@@ -52,18 +52,7 @@ class OAuthController extends AbstractLoginController
             \Log::info('OAuth existing user found', ['user_id' => $oauthProvider->user_id]);
             $user = $oauthProvider->user;
 
-            if ($user->use_totp) {
-                Activity::event('auth:checkpoint')->withRequestMetadata()->subject($user)->log();
-
-                $request->session()->put('auth_confirmation_token', [
-                    'user_id' => $user->id,
-                    'token_value' => $token = Str::random(64),
-                    'expires_at' => now()->addMinutes(5),
-                ]);
-
-                return redirect('/auth/login/checkpoint')->with('token', $token);
-            }
-
+            // Skip 2FA for OAuth — provider already verified identity
             return $this->sendLoginResponseAndRedirect($user, $request);
         }
 

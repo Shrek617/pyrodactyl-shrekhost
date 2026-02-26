@@ -1,6 +1,6 @@
 import type { ActionCreator } from 'easy-peasy';
 import { useFormikContext, withFormik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Location, RouteProps } from 'react-router-dom';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
@@ -136,13 +136,24 @@ const LoginCheckpointContainer = ({ ...props }: OwnProps) => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    if (!location.state?.token) {
-        navigate('/auth/login');
+    // Support token from React Router state (normal login) or query params (OAuth redirect)
+    const params = new URLSearchParams(window.location.search);
+    const token = location.state?.token || params.get('token');
 
+    useEffect(() => {
+        if (!token) {
+            navigate('/auth/login');
+        }
+    }, [token, navigate]);
+
+    if (!token) {
         return null;
     }
 
-    return <EnhancedForm clearAndAddHttpError={clearAndAddHttpError} location={location} {...props} />;
+    // Override location.state so EnhancedForm can read the token
+    const patchedLocation = { ...location, state: { ...location.state, token } };
+
+    return <EnhancedForm clearAndAddHttpError={clearAndAddHttpError} location={patchedLocation} {...props} />;
 };
 
 export default LoginCheckpointContainer;
