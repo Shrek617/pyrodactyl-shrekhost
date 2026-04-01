@@ -18,7 +18,7 @@ RUN if [ "$DEV" = "false" ]; then \
     fi
 COPY . .
 RUN if [ "$DEV" = "false" ]; then \
-    pnpm install --frozen-lockfile \
+    pnpm install \
     && pnpm run ship; \
     fi
 
