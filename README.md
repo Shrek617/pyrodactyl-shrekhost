@@ -3,8 +3,7 @@
 </p>
 
 <p align="center">
- <a aria-label="Made by Pyro Inc." href="https://pyro.host"><img src="https://i.imgur.com/uvIy6cI.png"></a>
- <a aria-label="Join the Pyrodactyl community on Discord" href="https://discord.gg/UhuYKKK2uM?utm_source=githubreadme&utm_medium=readme&utm_campaign=OSSLAUNCH&utm_id=OSSLAUNCH"><img alt="" src="https://i.imgur.com/qSfKisV.png"></a>
+<a aria-label="Join the Pyrodactyl community on Discord" href="https://discord.gg/mnTJVSSaKp?utm_source=githubreadme&utm_medium=readme&utm_campaign=OSSLAUNCH&utm_id=OSSLAUNCH"><img alt="" src="https://i.imgur.com/qSfKisV.png"></a>
 </p>
 
 <p align="center">
@@ -25,11 +24,11 @@
 > Please read our documentation at [https://pyrodactyl.dev](https://pyrodactyl.dev/docs/pyrodactyl) before installing.
 
 > [!IMPORTANT]
-> For Pyrodactyl-specific issues, please use the [Pyrodactyl Discord](https://discord.gg/UhuYKKK2uM?utm_source=githubreadme&utm_medium=readme&utm_campaign=OSSLAUNCH&utm_id=OSSLAUNCH) instead of Pterodactyl or Pelican support channels.
+> For Pyrodactyl-specific issues, please use the [Pyrodactyl Discord](https://discord.gg/mnTJVSSaKp?utm_source=githubreadme&utm_medium=readme&utm_campaign=OSSLAUNCH&utm_id=OSSLAUNCH) instead of Pterodactyl or Pelican support channels.
 
 Pyrodactyl is the Pterodactyl-based game server management panel that focuses on performance enhancements, a reimagined, accessible interface, and top-tier developer experience. Builds faster, compiles smaller: Pyrodactyl is the world's best Pterodactyl.
 
-[![Dashboard Image](./.github/server-menu.png)](https://panel.pyro.host)
+![Dashboard Image](./.github/server-menu.png)
 
 ## Changes from vanilla Pterodactyl
 
@@ -57,9 +56,9 @@ Pyrodactyl has various effortless ways of starting up a ready-to-use, fully-feat
 
 <a href="https://star-history.com/#pyrodactyl-oss/pyrodactyl&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=pyrohost/pyrodactyl&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=pyrohost/pyrodactyl&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=pyrohost/pyrodactyl&type=Date" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=pyrodactyl-oss/pyrodactyl&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=pyrodactyl-oss/pyrodactyl&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=pyrodactyl-oss/pyrodactyl&type=Date" />
   </picture>
 </a>
 
@@ -67,6 +66,8 @@ Pyrodactyl has various effortless ways of starting up a ready-to-use, fully-feat
 
 Pterodactyl® Copyright © 2015 - 2022 Dane Everitt and contributors.
 
-Pyrodactyl™ Copyright © 2023-Present Pyro Inc. and contributors.
+Pyrodactyl™ Copyright © 2023-2025 Pyro Inc. and contributors.
+
+Pyrodactyl™ Copyright © 2025-present Pyrodactyl-OSS and contributers. 
 
 Apache-2.0
